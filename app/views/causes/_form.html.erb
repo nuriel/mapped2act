@@ -1,0 +1,94 @@
+<%= form_for(@cause, :html => { :class => "form-horizontal" }) do |f| %>
+  <% if @cause.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><%= pluralize(@cause.errors.count, "error") %> prohibited this cause from being saved:</h4>
+
+      <ul>
+      <% @cause.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%# f.label :state, :class => "col-lg-2 control-label" %>
+    <!-- <div class="col-lg-10"> -->
+      <%# f.number_field :state, :class => "form-control", min: 0, max: 1, value: 1 %>
+    <!-- </div> -->
+  </div>
+  <div class="form-group">
+    <%= f.label :name, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :name, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :website, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :website, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :phone, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :phone, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :email, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :email, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :social_contribution, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_area :social_contribution, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :one_liner, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :one_liner, :class => "form-control" %>
+    </div>
+  </div>
+	<div class="form-group">
+		<div id="panel">
+		  <input id="address" type="textbox" value="Sydney, NSW">
+		  <input type="button" value="Geocode" onclick="codeAddress()">
+		</div>
+		<div id="map-canvas"></div>
+	</div>
+	
+  <div class="form-group">
+    <%= f.label :address, :id => 'location_autocomplete', :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :address, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :latitude, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :latitude, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :longitude, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :longitude, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :logo, :class => "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.text_field :logo, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit :class => "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
