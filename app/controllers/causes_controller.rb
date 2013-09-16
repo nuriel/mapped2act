@@ -5,6 +5,8 @@ class CausesController < ApplicationController
   def index
     @causes = Cause.all
 
+    @json = Cause.all.to_gmaps4rails
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @causes }
