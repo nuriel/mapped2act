@@ -36,11 +36,20 @@ var geolocate = function(inputId) {
     });
 }
 
+// update the form according to info set in the location autocomplete
 var updateSelectedLocation = function(inputId) {
     data = $('#'+inputId).select2('data')[0];
-    $('#'+inputId).val(data.text);
-    $('#cause_latitude').val(data.id['lat']);
-    $('#cause_longitude').val(data.id['lng']);
+    if (typeof data.text != "undefined"){
+        $('#'+inputId).val(data.text);
+        $('#cause_latitude').val(data.id['lat']);
+        $('#cause_longitude').val(data.id['lng']);
+
+        // recreate the map in edit mode
+        var map = $('#edit_cause_map'),
+        cval = 'https://maps.googleapis.com/maps/api/staticmap?center=' + data.id['lat'] + '%2c' + data.id['lng'] +'&amp;zoom=14&amp;size=288x200&amp;markers=' + data.id['lat'] + '%2c' + data.id['lng'] +'&amp;sensor=false';
+        $('<img id="edit_cause_map" height="200" width="288" src="'+ cval +'">').insertAfter( map );
+        map.remove();
+    }
 }
 
 

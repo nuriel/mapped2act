@@ -29,6 +29,8 @@ class Cause < ActiveRecord::Base
   scope :authorized, -> { where(:state => STATE.index(:approved)) }
   scope :awaiting_approval, -> { where(:state => STATE.index(:awaiting_approval)) }
 
+  validates :address, :email, :name, :phone, :social_contribution, :website, presence: true      #, :one_liner
+
   def geocode?
     (!address.blank? && (latitude.blank? || longitude.blank?)) #|| address_changed?
   end
