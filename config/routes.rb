@@ -1,5 +1,9 @@
 Mapped2act::Application.routes.draw do
 
+  get "map/index"
+  get "map/autocomplete", as: "location_autocomplete"
+  get "map/geocode", as: "geocode"
+
   get "static/home"
 
   resources :causes

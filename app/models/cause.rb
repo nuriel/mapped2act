@@ -30,7 +30,7 @@ class Cause < ActiveRecord::Base
   scope :awaiting_approval, -> { where(:state => STATE.index(:awaiting_approval)) }
 
   def geocode?
-    (!address.blank? && (latitude.blank? || longitude.blank?)) || address_changed?
+    (!address.blank? && (latitude.blank? || longitude.blank?)) #|| address_changed?
   end
 
 

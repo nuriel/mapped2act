@@ -1,64 +1,54 @@
-function movieFormatResult(movie) {
-    var markup = "<table class='movie-result'><tr>";
-    if (movie.posters !== undefined && movie.posters.thumbnail !== undefined) {
-        markup += "<td class='movie-image'><img src='" + movie.posters.thumbnail + "'/></td>";
-    }
-    markup += "<td class='movie-info'><div class='movie-title'>" + movie.title + "</div>";
-    if (movie.critics_consensus !== undefined) {
-        markup += "<div class='movie-synopsis'>" + movie.critics_consensus + "</div>";
-    }
-    else if (movie.synopsis !== undefined) {
-        markup += "<div class='movie-synopsis'>" + movie.synopsis + "</div>";
-    }
-    markup += "</td></tr></table>"
-    return markup;
+var initLocationAutocomplete = function() {
+    var inputID = 'location_autocomplete'
+    $('#' + inputID).select2({
+        quietMillis: 400,
+        minimumInputLength: 3,
+        placeholder: 'Enter location',
+        multiple: true,
+        maximumSelectionSize: 1,
+        ajax: {
+            url: $('#' + inputID).data('url'),
+            dataType: "json",
+            data: function (term, page) {return {q:term, page: page, per: 10}},
+            results: function (data, page) {
+                return {results: data};
+            }
+        },
+        initSelection : function (element, callback) {
+            var elementText = $(element).attr('data-init-text');
+            autocomplete_input = $('#location_autocomplete')
+            callback({text: autocomplete_input.data('value'), id: [] });
+        }
+
+    });
+
 }
 
-function movieFormatSelection(movie) {
-    return movie.title;
+var geolocate = function(inputId) {
+    // handle loader
+    loader.find('span').text('Geolocating...');
+    loader.addClass('loading').fadeIn();
+
+    // geolocate (autocomplete with no query param)
+    $.getJSON('/api/locations/autocomplete.json', function(data) {
+        $('#'+inputId).select2('data', data)
+        wizUpdateSpecificLocation(inputId);
+    });
 }
 
-var initializeLocationAutocomplete = function() {
-  $("#location_autocomplete").select2({
-      placeholder: "Search for a place",
-      minimumInputLength: 3,
-      ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
-          url: "http://api.rottentomatoes.com/api/public/v1.0/movies.json",
-          dataType: 'jsonp',
-          data: function (term, page) {
-              return {
-               address: term,
-               // bounds: LatLngBounds,
-               region: 'il'
-              };
-          },
-          results: function (data, page) { // parse the results into the format expected by Select2.
-              // since we are using custom formatting functions we do not need to alter remote JSON data
-              return {results: data.movies};
-          }
-      },
-      initSelection: function(element, callback) {
-          // the input tag has a value attribute preloaded that points to a preselected movie's id
-          // this function resolves that id attribute to an object that select2 can render
-          // using its formatResult renderer - that way the movie name is shown preselected
-          var id=$(element).val();
-          if (id!=="") {
-              $.ajax("http://api.rottentomatoes.com/api/public/v1.0/movies/"+id+".json", {
-                  data: {
-                      apikey: "ju6z9mjyajq2djue3gbvv26t"
-                  },
-                  dataType: "jsonp"
-              }).done(function(data) { callback(data); });
-          }
-      },
-      formatResult: movieFormatResult,
-      formatSelection: movieFormatSelection,
-      // dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
-      escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
-  });
-};
+var updateSelectedLocation = function(inputId) {
+    data = $('#'+inputId).select2('data')[0];
+    $('#'+inputId).val(data.text);
+    $('#cause_latitude').val(data.id['lat']);
+    $('#cause_longitude').val(data.id['lng']);
+}
+
 
 $(document).ready(function() {
-//   {"total":22,"movies":[{"id":"321779323","title":"City Of Rott","year":2005,"mpaa_rating":"Unrated","runtime":77,"release_dates":{"theater":"2006-08-08","dvd":"2006-08-08"},"ratings":{"critics_score":-1,"audience_rating":"Spilled","audience_score":35},"synopsis":"","posters":{"thumbnail":"http://content9.flixster.com/movie/26/09/86/2609863_mob.jpg","profile":"http://content9.flixster.com/movie/26/09/86/2609863_pro.jpg","detailed":"http://content9.flixster.com/movie/26/09/86/2609863_det.jpg","original":"http://content9.flixster.com/movie/26/09/86/2609863_ori.jpg"},"abridged_cast":[{"name":"Frank Sudol","id":"321782142"}],"alternate_ids":{"imdb":"0839762"},"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/321779323.json","alternate":"http://www.rottentomatoes.com/m/city_of_rott/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/321779323/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/321779323/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/321779323/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/321779323/similar.json"}},{"id":"12487","title":"Dirty Rotten Scoundrels","year":1988,"mpaa_rating":"PG","runtime":111,"critics_consensus":"A buoyant, clever update of the conman flick Bedtime Story, with plenty of comedic jousting resulting from a winning chemistry between Michael Caine and Steve Martin.","release_dates":{"theater":"1988-01-01","dvd":"1997-12-17"},"ratings":{"critics_rating":"Fresh","critics_score":88,"audience_rating":"Upright","audience_score":78},"synopsis":"","posters":{"thumbnail":"http://content8.flixster.com/movie/26/56/265606_mob.jpg","profile":"http://content8.flixster.com/movie/26/56/265606_pro.jpg","detailed":"http://content8.flixster.com/movie/26/56/265606_det.jpg","original":"http://content8.flixster.com/movie/26/56/265606_ori.jpg"},"abridged_cast":[{"name":"Steve Martin","id":"162654836","characters":["Freddy Benson"]},{"name":"Michael Caine","id":"162652646","characters":["Lawrence Jamieson"]},{"name":"Glenne Headly","id":"162661099","characters":["Janet Colgate"]},{"name":"Anton Rodgers","id":"770671402","characters":["Inspector Andre"]},{"name":"Barbara Harris","id":"162657139","characters":["Fanny Eubanks"]}],"alternate_ids":{"imdb":"0095031"},"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/12487.json","alternate":"http://www.rottentomatoes.com/m/dirty_rotten_scoundrels/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/12487/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/12487/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/12487/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/12487/similar.json"}},{"id":"770675848","title":"Ett Oga rott","year":2007,"mpaa_rating":"Unrated","runtime":"","release_dates":{"theater":"2007-09-07"},"ratings":{"critics_score":-1,"audience_rating":"Spilled","audience_score":44},"synopsis":"","posters":{"thumbnail":"http://content9.flixster.com/movie/99/36/53/9936535_mob.jpg","profile":"http://content9.flixster.com/movie/99/36/53/9936535_pro.jpg","detailed":"http://content9.flixster.com/movie/99/36/53/9936535_det.jpg","original":"http://content9.flixster.com/movie/99/36/53/9936535_ori.jpg"},"abridged_cast":[{"name":"Adel Bakhani","id":"770833331"},{"name":"Anwar Albayati","id":"770681114"},{"name":"Evin Ahmad","id":"770681113"},{"name":"Mikael Persbrandt","id":"394295163"},{"name":"Sofia Bach","id":"770833330"}],"alternate_ids":{"imdb":"0876159"},"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/770675848.json","alternate":"http://www.rottentomatoes.com/m/ett-oga-rott/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/770675848/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/770675848/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/770675848/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/770675848/similar.json"}},{"id":"770670612","title":"Rottweiler","year":2004,"mpaa_rating":"R","runtime":95,"release_dates":{"theater":"1982-01-01","dvd":"2005-07-19"},"ratings":{"critics_score":-1,"audience_rating":"Spilled","audience_score":24},"synopsis":"","posters":{"thumbnail":"http://content7.flixster.com/movie/75/65/90/7565905_mob.jpg","profile":"http://content7.flixster.com/movie/75/65/90/7565905_pro.jpg","detailed":"http://content7.flixster.com/movie/75/65/90/7565905_det.jpg","original":"http://content7.flixster.com/movie/75/65/90/7565905_ori.jpg"},"abridged_cast":[{"name":"Paul Naschy","id":"162737120","characters":["Kufar"]},{"name":"Paulina Galvez","id":"326433268","characters":["Alyah"]},{"name":"Irene Montala","id":"770706749","characters":["Ula"]},{"name":"Lluis Homar","id":"326298552","characters":["Guard Borg"]},{"name":"Lolo Herrero","id":"770752158","characters":["Nacho"]}],"alternate_ids":{"imdb":"0371920"},"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670612.json","alternate":"http://www.rottentomatoes.com/m/rottweiler_1982/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670612/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670612/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670612/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670612/similar.json"}},{"id":"771034084","title":"Rotten Tomatoes UK at CERN","year":"","mpaa_rating":"Unrated","runtime":"","release_dates":{},"ratings":{"critics_score":-1,"audience_score":40},"synopsis":"","posters":{"thumbnail":"http://images.rottentomatoescdn.com/images/redesign/poster_default.gif","profile":"http://images.rottentomatoescdn.com/images/redesign/poster_default.gif","detailed":"http://images.rottentomatoescdn.com/images/redesign/poster_default.gif","original":"http://images.rottentomatoescdn.com/images/redesign/poster_default.gif"},"abridged_cast":[],"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/771034084.json","alternate":"http://www.rottentomatoes.com/m/rotten_tomatoes_uk_at_cern/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/771034084/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/771034084/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/771034084/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/771034084/similar.json"}},{"id":"770670918","title":"Rottweiler: Dogs of Hell","year":1984,"mpaa_rating":"R","runtime":90,"release_dates":{},"ratings":{"critics_score":-1,"audience_score":46},"synopsis":"","posters":{"thumbnail":"http://content9.flixster.com/movie/10/87/19/10871919_mob.jpg","profile":"http://content9.flixster.com/movie/10/87/19/10871919_pro.jpg","detailed":"http://content9.flixster.com/movie/10/87/19/10871919_det.jpg","original":"http://content9.flixster.com/movie/10/87/19/10871919_ori.jpg"},"abridged_cast":[{"name":"Bill Gribble","id":"770672170"},{"name":"Jerry Rushing","id":"770709188"},{"name":"Earl Owensby","id":"770672169"}],"alternate_ids":{"imdb":"0131359"},"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670918.json","alternate":"http://www.rottentomatoes.com/m/dogs_of_hell/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670918/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670918/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670918/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/770670918/similar.json"}},{"id":"770702185","title":"Peter Rottentail","year":2004,"mpaa_rating":"Unrated","runtime":80,"release_dates":{"theater":"2004-06-29","dvd":"2004-07-27"},"ratings":{"critics_score":-1,"audience_rating":"Spilled","audience_score":50},"synopsis":"","posters":{"thumbnail":"http://content6.flixster.com/movie/10/84/51/10845168_mob.jpg","profile":"http://content6.flixster.com/movie/10/84/51/10845168_pro.jpg","detailed":"http://content6.flixster.com/movie/10/84/51/10845168_det.jpg","original":"http://content6.flixster.com/movie/10/84/51/10845168_ori.jpg"},"abridged_cast":[{"name":"Dave Fife","id":"770746638"},{"name":"Brice Kennedy","id":"770739769"},{"name":"Brian Berry","id":"770746636"},{"name":"Todd Carpenter","id":"770674226"}],"alternate_ids":{"imdb":"0399485"},"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/770702185.json","alternate":"http://www.rottentomatoes.com/m/peter_rottentail/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/770702185/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/770702185/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/770702185/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/770702185/similar.json"}},{"id":"770691582","title":"Dead and Rotting","year":2002,"mpaa_rating":"R","runtime":72,"release_dates":{"theater":"2002-02-03","dvd":"2002-08-20"},"ratings":{"critics_score":-1,"audience_rating":"Spilled","audience_score":32},"synopsis":"","posters":{"thumbnail":"http://content9.flixster.com/movie/10/84/92/10849255_mob.jpg","profile":"http://content9.flixster.com/movie/10/84/92/10849255_pro.jpg","detailed":"http://content9.flixster.com/movie/10/84/92/10849255_det.jpg","original":"http://content9.flixster.com/movie/10/84/92/10849255_ori.jpg"},"abridged_cast":[{"name":"Tom Hoover","id":"554244989","characters":["J.P."]},{"name":"Barbara Katz-Norrod","id":"770715288","characters":["Abigail"]},{"name":"Debbie Rochon","id":"364606306","characters":["Abi"]},{"name":"Trent Haaga","id":"364606305","characters":["Eric"]},{"name":"Stephen O'Mahoney","id":"770719080","characters":["Hollis Bunson"]}],"alternate_ids":{"imdb":"0301165"},"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/770691582.json","alternate":"http://www.rottentomatoes.com/m/dead_and_rotting/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/770691582/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/770691582/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/770691582/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/770691582/similar.json"}},{"id":"770891498","title":"When Things Were Rotten","year":1975,"mpaa_rating":"Unrated","runtime":78,"release_dates":{},"ratings":{"critics_score":-1,"audience_score":100},"synopsis":"","posters":{"thumbnail":"http://content6.flixster.com/movie/10/96/09/10960952_mob.jpg","profile":"http://content6.flixster.com/movie/10/96/09/10960952_pro.jpg","detailed":"http://content6.flixster.com/movie/10/96/09/10960952_det.jpg","original":"http://content6.flixster.com/movie/10/96/09/10960952_ori.jpg"},"abridged_cast":[{"name":"Dick Gautier","id":"770708308"},{"name":"Dick Van Patten","id":"364635897"},{"name":"Sid Caesar","id":"162658037"},{"name":"Bernie Kopell","id":"770709486"},{"name":"Richard Dimitri","id":"770884122"}],"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/770891498.json","alternate":"http://www.rottentomatoes.com/m/when_things_were_rotten/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/770891498/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/770891498/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/770891498/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/770891498/similar.json"}},{"id":"770973782","title":"Rottweiler","year":2005,"mpaa_rating":"Unrated","runtime":98,"release_dates":{"dvd":"2005-07-19"},"ratings":{"critics_score":-1,"audience_rating":"Spilled","audience_score":23},"synopsis":"","posters":{"thumbnail":"http://content9.flixster.com/movie/11/02/14/11021407_mob.jpg","profile":"http://content9.flixster.com/movie/11/02/14/11021407_pro.jpg","detailed":"http://content9.flixster.com/movie/11/02/14/11021407_det.jpg","original":"http://content9.flixster.com/movie/11/02/14/11021407_ori.jpg"},"abridged_cast":[],"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies/770973782.json","alternate":"http://www.rottentomatoes.com/m/rottweiler/","cast":"http://api.rottentomatoes.com/api/public/v1.0/movies/770973782/cast.json","clips":"http://api.rottentomatoes.com/api/public/v1.0/movies/770973782/clips.json","reviews":"http://api.rottentomatoes.com/api/public/v1.0/movies/770973782/reviews.json","similar":"http://api.rottentomatoes.com/api/public/v1.0/movies/770973782/similar.json"}}],"links":{"self":"http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=rott&page_limit=10&page=1","next":"http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=rott&page_limit=10&page=2"},"link_template":"http://api.rottentomatoes.com/api/public/v1.0/movies.json?q={search-term}&page_limit={results-per-page}&page={page-number}"}
-  initializeLocationAutocomplete();
+    initLocationAutocomplete();
+
+    // location autocomplete
+    $('#location_autocomplete').on("change", function() { updateSelectedLocation("location_autocomplete") });
+    // location geolocate
+    $("body").on("click", "#geolocate_icon", function() { wizGeolocate("location_autocomplete_input") });
 });
