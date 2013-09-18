@@ -1,5 +1,6 @@
 class CausesController < ApplicationController
-  
+  before_filter :authenticate_user!
+
   # # GET /causes
   # GET /causes.json
   def index

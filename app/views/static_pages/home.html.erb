@@ -1,10 +1,17 @@
-<!-- TODO - CONNECT TO DEVISE -->
-<form class="form-signin">
-  <h2 class="form-signin-heading">Please sign in</h2>
-  <input type="text" class="form-control" placeholder="Email address" autofocus="">
-  <input type="password" class="form-control" placeholder="Password">
-  <label class="checkbox">
-    <input type="checkbox" value="remember-me"> Remember me
-  </label>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-</form>
+<%= form_for(@user, :as => :user, :url => session_path(:user), :html => {:class => "form-signin"}) do |f| %>
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <div><%= f.label :email %><br />
+      <%= f.email_field :email, :autofocus => true, :class => "form-control", :placeholder => "Email address" %></div>
+
+    <div><%= f.label :password %><br />
+      <%= f.password_field :password, :class => "form-control", :placeholder => "Password" %></div>
+
+    <label for="remember_me" class="checkbox">
+      <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+<% end %>
+
+<%= link_to "Forgot your password?", new_password_path(:user) %>
+<%= link_to "Sign in", new_session_path(:user) %>
+<%= link_to "Sign up", new_registration_path(:user) %>

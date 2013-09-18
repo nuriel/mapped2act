@@ -1,5 +1,7 @@
 Mapped2act::Application.routes.draw do
 
+  devise_for :users
+
   get "map/index"
   get "map/autocomplete", as: "location_autocomplete"
   get "map/geocode", as: "geocode"
