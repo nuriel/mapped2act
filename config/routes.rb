@@ -1,5 +1,8 @@
 Mapped2act::Application.routes.draw do
 
+  resources :cause_categories
+
+
   devise_for :users
 
   get "map/index"

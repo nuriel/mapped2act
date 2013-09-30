@@ -17,6 +17,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  gmaps               :boolean
+#  cause_category_id   :integer
 #
 
 class Cause < ActiveRecord::Base
@@ -24,7 +25,9 @@ class Cause < ActiveRecord::Base
                     :address => "address", :normalized_address => "address",
                     :msg => "Sorry, not even Google could figure out where that is"
 
-  attr_accessible :address, :email, :latitude, :logo, :longitude, :name, :one_liner, :phone, :social_contribution, :website
+  attr_accessible :address, :email, :latitude, :logo, :longitude, :name, :one_liner, :phone, :social_contribution, :website, :cause_category_id
+
+  belongs_to :cause_category
 
   scope :authorized, -> { where(:state => STATE.index(:approved)) }
   scope :awaiting_approval, -> { where(:state => STATE.index(:awaiting_approval)) }
@@ -36,7 +39,7 @@ class Cause < ActiveRecord::Base
   end
 
 
-  # states - do not change order, add new stated to the end of the array
+  # states - do not change order, add new states to the end of the array
   STATE = [:awaiting_approval, :approved]
 
   def state=(value)

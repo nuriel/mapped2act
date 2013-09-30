@@ -16,6 +16,7 @@
       <tr>
             <th>State</th>
             <th>Name</th>
+            <th>Category</th>
             <th>Website</th>
             <th>Phone</th>
             <th>Email</th>
@@ -35,6 +36,7 @@
       <%= content_tag_for(:tr, @causes) do |cause| %>
             <td><%= cause.state %></td>
             <td><%= cause.name %></td>
+            <td><%= cause.cause_category.name if cause.cause_category %></td>
             <td><%= cause.website %></td>
             <td><%= cause.phone %></td>
             <td><%= cause.email %></td>

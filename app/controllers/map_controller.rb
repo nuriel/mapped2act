@@ -2,6 +2,9 @@ class MapController < ApplicationController
   respond_to :json
 
   def index
+    @causes = Cause
+
+    respond_with @causes
   end
 
   def autocomplete

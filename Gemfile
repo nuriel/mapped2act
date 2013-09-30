@@ -11,7 +11,6 @@ gem 'thin'
 gem 'pg'
 gem 'geocoder'
 gem 'carrierwave'
-gem 'better_errors'
 gem 'bootstrap-generators', '~> 3.0'
 gem "select2-rails"
 gem 'devise'

@@ -1,0 +1,33 @@
+<div class="page-header">
+  <%= link_to new_cause_category_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Cause category
+  <% end %>
+  <h1>Listing cause_categories</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Marker address</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @cause_categories) do |cause_category| %>
+        <td><%= cause_category.name %></td>
+        <td><%= cause_category.description %></td>
+        <td><%= image_tag cause_category.marker_address %><br><%= cause_category.marker_address %></td>
+        <td><%= link_to 'Show', cause_category %></td>
+        <td><%= link_to 'Edit', edit_cause_category_path(cause_category) %></td>
+        <td><%= link_to 'Destroy', cause_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>
