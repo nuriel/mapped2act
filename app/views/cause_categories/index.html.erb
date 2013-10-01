@@ -23,7 +23,7 @@
       <%= content_tag_for(:tr, @cause_categories) do |cause_category| %>
         <td><%= cause_category.name %></td>
         <td><%= cause_category.description %></td>
-        <td><%= image_tag cause_category.marker_address %><br><%= cause_category.marker_address %></td>
+        <td><%= image_tag cause_category.marker_address unless cause_category.marker_address.blank? %><br><%= cause_category.marker_address %></td>
         <td><%= link_to 'Show', cause_category %></td>
         <td><%= link_to 'Edit', edit_cause_category_path(cause_category) %></td>
         <td><%= link_to 'Destroy', cause_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
