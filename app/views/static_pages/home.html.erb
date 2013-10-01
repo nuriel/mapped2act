@@ -1,2 +1,31 @@
-<ul id="markers_list">  </ul>
-<%= gmaps("markers" => {"data" => @json, "options" => {"list_container" => "markers_list" } }) %>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="col-xs-9">
+      <%= gmaps("markers" => {"data" => @json, "options" => {"list_container" => "markers_sidebar" } }) %>
+    </div>
+    <div id="sidebar_container" class="col-xs-3">
+      <div id="info_overlay">
+        <%= render 'causes/sidebar' %>
+      </div>
+
+        <ul class="nav nav-list" id="markers_sidebar">
+          <li class="nav-header">Choose the Cause:</li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+    Gmaps.map.callback = function() {
+      for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
+        var marker = Gmaps.map.markers[i].serviceObject;
+        marker.data = jQuery.parseJSON(Gmaps.map.markers[i].data);
+        google.maps.event.addListener(marker, 'click', function() {
+          showCauseInfoSidebar(this.data);
+
+        });
+      }
+    }
+  </script>
+<% end %>

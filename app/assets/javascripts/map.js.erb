@@ -1,0 +1,25 @@
+var showCauseInfoSidebar = function(markerData) {
+  $('#info_overlay').show();
+  $('#markers_sidebar').hide();
+
+  $.each($('.fill_from_data'),function(div,index){
+    $(this).text(markerData[$(this).data('key')]);
+  })
+
+}
+
+$(document).ready(function(){
+
+// make map truly responsive, in height as well
+  $(window).resize(function () {
+    var h = $(window).height(),
+            offsetTop = $('.navbar-fixed-top').height() + 30; // Calculate the top offset
+    $('#map').css('height', (h - offsetTop));
+  }).resize();
+
+  $('body').on('click', '#sidebar_back', function(){
+    $('#info_overlay').hide();
+    $('#markers_sidebar').show();
+  });
+
+})

@@ -11,7 +11,7 @@ class StaticPagesController < ApplicationController
                      })
       marker.title   "#{cause.name} (#{cause.cause_category.present? ? cause.cause_category.name : "Not yet categorized"})"
       marker.sidebar cause.name
-      marker.json({ :id => cause.id, :foo => "bar" })
+      marker.json({ :id => cause.id, :category => cause.cause_category ? cause.cause_category.id : 0, data: cause.to_json})
     end
   end
 end
