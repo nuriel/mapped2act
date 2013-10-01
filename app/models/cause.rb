@@ -21,29 +21,37 @@
 #
 
 class Cause < ActiveRecord::Base
+  # behaviours
   acts_as_gmappable :lat => 'latitude', :lng => 'longitude', :process_geocoding => :geocode?,
                     :address => "address", :normalized_address => "address",
                     :msg => "Sorry, not even Google could figure out where that is"
 
   attr_accessible :address, :email, :latitude, :logo, :longitude, :name, :one_liner, :phone, :social_contribution, :website, :cause_category_id
 
+  # RELATIONS
   belongs_to :cause_category
+  has_many :act_causes
+  has_many :acts, through: :act_causes
 
+  # SCOPES
   scope :authorized, -> { where(:state => STATE.index(:approved)) }
   scope :awaiting_approval, -> { where(:state => STATE.index(:awaiting_approval)) }
 
+  # VALIDATIONS
   validates :address, :email, :name, :phone, :social_contribution, :website, presence: true      #, :one_liner
+
+  # CALLBACKS
 
   def geocode?
     (!address.blank? && (latitude.blank? || longitude.blank?)) #|| address_changed?
   end
 
-
   # states - do not change order, add new states to the end of the array
   STATE = [:awaiting_approval, :approved]
 
-  def state=(value)
+  def set_state(value)
     self.state = STATE.index(value)
+    self.save!
   end
-  
+
 end

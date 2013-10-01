@@ -48,6 +48,8 @@ class CausesController < ApplicationController
 
     respond_to do |format|
       if @cause.save
+        @cause.set_state(user_signed_in? ? :approved : :awaiting_approval)
+
         format.html { redirect_to @cause, notice: 'Cause was successfully created.' }
         format.json { render json: @cause, status: :created, location: @cause }
       else
@@ -64,6 +66,8 @@ class CausesController < ApplicationController
 
     respond_to do |format|
       if @cause.update_attributes(params[:cause])
+        @cause.set_state(user_signed_in? ? :approved : :awaiting_approval)
+
         format.html { redirect_to @cause, notice: 'Cause was successfully updated.' }
         format.json { head :no_content }
       else

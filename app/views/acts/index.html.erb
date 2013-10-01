@@ -1,0 +1,33 @@
+<div class="page-header">
+  <%= link_to new_act_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Act
+  <% end %>
+  <h1>Listing acts</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Presentation</th>
+            <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @acts) do |act| %>
+            <td><%= act.name %></td>
+            <td><%= act.description %></td>
+            <td><%= act.presentation %></td>
+            <td><%= link_to 'Show', act %></td>
+        <td><%= link_to 'Edit', edit_act_path(act) %></td>
+        <td><%= link_to 'Destroy', act, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: act_causes
+#
+#  id         :integer          not null, primary key
+#  act_id     :integer
+#  cause_id   :integer
+#  message    :string(255)
+#  url        :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  act_id: 1
+  cause_id: 1
+  message: MyString
+  url: MyString
+
+two:
+  act_id: 1
+  cause_id: 1
+  message: MyString
+  url: MyString

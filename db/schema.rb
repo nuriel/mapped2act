@@ -11,7 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130930153730) do
+ActiveRecord::Schema.define(:version => 20131001112937) do
+
+  create_table "act_causes", :force => true do |t|
+    t.integer  "act_id"
+    t.integer  "cause_id"
+    t.string   "message"
+    t.string   "url"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "act_causes", ["act_id"], :name => "index_act_causes_on_act_id"
+  add_index "act_causes", ["cause_id"], :name => "index_act_causes_on_cause_id"
+
+  create_table "acts", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "presentation"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "cause_categories", :force => true do |t|
     t.string   "name"

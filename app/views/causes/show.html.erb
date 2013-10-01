@@ -15,7 +15,7 @@
   <dd><%= @cause.state %></dd>
 
   <dt>category:</dt>
-  <dd><%= @cause.cause_category.name %></dd>
+  <dd><%= @cause.cause_category.present? ? @cause.cause_category.name : "Uncategorized" %></dd>
 
   <dt>Name:</dt>
   <dd><%= @cause.name %></dd>

@@ -1,5 +1,8 @@
 Mapped2act::Application.routes.draw do
 
+  resources :acts
+
+
   resources :cause_categories
 
 

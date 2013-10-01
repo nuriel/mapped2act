@@ -1,0 +1,23 @@
+<div class="page-header">
+  <%= link_to acts_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_act_path(@act), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show act</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Name:</dt>
+  <dd><%= @act.name %></dd>
+
+  <dt>Description:</dt>
+  <dd><%= @act.description %></dd>
+
+  <dt>Presentation:</dt>
+  <dd><%= @act.presentation %></dd>
+
+</dl>
