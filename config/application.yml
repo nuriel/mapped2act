@@ -1,0 +1,11 @@
+defaults: &defaults
+  AWS_ACCESS_KEY_ID: "AKIAIHRIT26EZQ7JGNRA"
+  AWS_SECRET_ACCESS_KEY: "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"
+development:
+  <<: *defaults
+  MAILER_HOST: "localhost:3000"
+  AWS_S3_BUCKET: "mapped2act"
+production:
+  <<: *defaults
+  MAILER_HOST: "mapped2act.herokuapp.com"
+  AWS_S3_BUCKET: "mapped2act_dev"

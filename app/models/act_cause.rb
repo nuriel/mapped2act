@@ -13,4 +13,7 @@
 
 class ActCause < ActiveRecord::Base
   attr_accessible :act_id, :cause_id, :message, :url
+
+  belongs_to :act
+  belongs_to :cause
 end

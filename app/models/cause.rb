@@ -22,16 +22,20 @@
 
 class Cause < ActiveRecord::Base
   # behaviours
+  mount_uploader :logo, ImageUploader
+
   acts_as_gmappable :lat => 'latitude', :lng => 'longitude', :process_geocoding => :geocode?,
                     :address => "address", :normalized_address => "address",
                     :msg => "Sorry, not even Google could figure out where that is"
 
-  attr_accessible :address, :email, :latitude, :logo, :longitude, :name, :one_liner, :phone, :social_contribution, :website, :cause_category_id
+  attr_accessible :address, :email, :latitude, :logo, :longitude, :name, :one_liner, :phone, :social_contribution,
+                  :website, :cause_category_id, :act_ids, :act_causes
 
   # RELATIONS
   belongs_to :cause_category
   has_many :act_causes
   has_many :acts, through: :act_causes
+
 
   # SCOPES
   scope :authorized, -> { where(:state => STATE.index(:approved)) }
@@ -41,6 +45,9 @@ class Cause < ActiveRecord::Base
   validates :address, :email, :name, :phone, :social_contribution, :website, presence: true      #, :one_liner
 
   # CALLBACKS
+
+  accepts_nested_attributes_for :act_causes
+
 
   def geocode?
     (!address.blank? && (latitude.blank? || longitude.blank?)) #|| address_changed?

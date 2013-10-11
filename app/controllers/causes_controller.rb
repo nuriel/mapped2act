@@ -30,6 +30,11 @@ class CausesController < ApplicationController
   def new
     @cause = Cause.new
 
+    Act.all.each do |act|
+      @cause.act_causes.where(act_id: act.id).first_or_initialize
+    end
+
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @cause }

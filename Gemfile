@@ -19,6 +19,10 @@ gem 'annotate'
 
 gem 'gmaps4rails'
 
+gem 'carrierwave'
+gem "rmagick"
+gem 'fog'
+
 # development tools
 group :development do
   gem 'better_errors'
