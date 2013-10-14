@@ -14,4 +14,9 @@ class StaticPagesController < ApplicationController
       marker.json({ :id => cause.id, :category => cause.cause_category ? cause.cause_category.id : 0, data: cause.to_json})
     end
   end
+
+  def work
+    @work_act = Act.work_acts.first
+    @act_causes = @work_act.act_causes
+  end
 end

@@ -8,6 +8,8 @@ Mapped2act::Application.routes.draw do
 
   devise_for :users
 
+  get "/work", to: "static_pages#work", as: "work"
+
   get "map/index"
   get "map/autocomplete", as: "location_autocomplete"
   get "map/geocode", as: "geocode"

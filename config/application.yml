@@ -1,6 +1,7 @@
 defaults: &defaults
   AWS_ACCESS_KEY_ID: "AKIAIHRIT26EZQ7JGNRA"
   AWS_SECRET_ACCESS_KEY: "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"
+  DEFAULT_JOBS_ACT_NAME: "work"
 development:
   <<: *defaults
   MAILER_HOST: "localhost:3000"
