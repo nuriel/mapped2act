@@ -23,6 +23,12 @@ gem 'carrierwave'
 gem "rmagick"
 gem 'fog'
 
+gem 'active_model_serializers'
+
+gem "nested_form", "~> 0.3.2"
+
+
+
 # development tools
 group :development do
   gem 'better_errors'

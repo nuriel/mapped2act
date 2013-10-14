@@ -29,13 +29,14 @@ class Cause < ActiveRecord::Base
                     :msg => "Sorry, not even Google could figure out where that is"
 
   attr_accessible :address, :email, :latitude, :logo, :longitude, :name, :one_liner, :phone, :social_contribution,
-                  :website, :cause_category_id, :act_ids, :act_causes
+                  :website, :cause_category_id, :act_ids, :act_attributes
 
   # RELATIONS
   belongs_to :cause_category
-  has_many :act_causes
+  has_many :act_causes, dependent: :destroy
   has_many :acts, through: :act_causes
 
+  accepts_nested_attributes_for :acts, :allow_destroy => true #, :reject_if => :all_blank
 
   # SCOPES
   scope :authorized, -> { where(:state => STATE.index(:approved)) }
@@ -46,7 +47,6 @@ class Cause < ActiveRecord::Base
 
   # CALLBACKS
 
-  accepts_nested_attributes_for :act_causes
 
 
   def geocode?
@@ -59,6 +59,10 @@ class Cause < ActiveRecord::Base
   def set_state(value)
     self.state = STATE.index(value)
     self.save!
+  end
+
+  def logo_url
+    self.logo.url
   end
 
 end

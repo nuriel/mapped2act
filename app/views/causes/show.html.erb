@@ -10,43 +10,70 @@
   <h1>Show cause</h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>State:</dt>
-  <dd><%= @cause.state %></dd>
 
-  <dt>category:</dt>
-  <dd><%= @cause.cause_category.present? ? @cause.cause_category.name : "Uncategorized" %></dd>
+<div class="row">
+  <div id="main_show_cause" class="col-xs-6">
+    <dl class="dl-horizontal">
+      <dt>State:</dt>
+      <dd><%= @cause.state %></dd>
 
-  <dt>Name:</dt>
-  <dd><%= @cause.name %></dd>
+      <dt>category:</dt>
+      <dd><%= @cause.cause_category.present? ? @cause.cause_category.name : "Uncategorized" %></dd>
 
-  <dt>Website:</dt>
-  <dd><%= @cause.website %></dd>
+      <dt>Name:</dt>
+      <dd><%= @cause.name %></dd>
 
-  <dt>Phone:</dt>
-  <dd><%= @cause.phone %></dd>
+      <dt>Website:</dt>
+      <dd><%= @cause.website %></dd>
 
-  <dt>Email:</dt>
-  <dd><%= @cause.email %></dd>
+      <dt>Phone:</dt>
+      <dd><%= @cause.phone %></dd>
 
-  <dt>Social contribution:</dt>
-  <dd><%= @cause.social_contribution %></dd>
+      <dt>Email:</dt>
+      <dd><%= @cause.email %></dd>
 
-  <dt>One liner:</dt>
-  <dd><%= @cause.one_liner %></dd>
+      <dt>Social contribution:</dt>
+      <dd><%= @cause.social_contribution %></dd>
 
-  <dt>Address:</dt>
-  <dd><%= @cause.address %></dd>
+      <dt>One liner:</dt>
+      <dd><%= @cause.one_liner %></dd>
 
-  <dt>Latitude:</dt>
-  <dd><%= @cause.latitude %></dd>
+      <dt>Address:</dt>
+      <dd><%= @cause.address %></dd>
 
-  <dt>Longitude:</dt>
-  <dd><%= @cause.longitude %></dd>
+      <dt>Latitude:</dt>
+      <dd><%= @cause.latitude %></dd>
 
-  <dt>Logo:</dt>
-  <dd><%= @cause.logo %></dd>
-</dl>
-<div class="col-sm-6 col-md-3">
-    <%= image_tag @cause.logo %>
+      <dt>Longitude:</dt>
+      <dd><%= @cause.longitude %></dd>
+
+      <dt>Logo:</dt>
+      <dd><%= @cause.logo %></dd>
+    </dl>
+  </div>
+  <div id="cause_sidebar" class="col-sm-5 col-md-5">
+    <%= image_tag @cause.logo, class: "thumbnail" %>
+  </div>
 </div>
+
+<h2>Update current status</h2>
+<% @act_causes.each do |act_cause| %>
+  <h3>Edit <%= act_cause.act.name %></h3>
+  <%= form_for act_cause, :html => { :class => "form-horizontal" } do |cause_form| %>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <%= cause_form.text_field :url, placeholder: 'update url' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <%= cause_form.text_area :message, rows: 4, placeholder: 'update url' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <%= cause_form.submit "Update Act #{act_cause.act.name}", :class => "btn btn-primary" %>
+      </div>
+    </div>
+  <% end  %>
+<% end %>

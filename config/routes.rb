@@ -16,6 +16,7 @@ Mapped2act::Application.routes.draw do
 
   resources :causes
 
+  resources :act_causes
 
   # ROOT
   root to: 'static_pages#home'

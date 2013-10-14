@@ -1,7 +1,7 @@
 class CausesController < ApplicationController
   before_filter :authenticate_user!
 
-  # # GET /causes
+  # GET /causes
   # GET /causes.json
   def index
     @causes = Cause.all
@@ -18,6 +18,8 @@ class CausesController < ApplicationController
   # GET /causes/1.json
   def show
     @cause = Cause.find(params[:id])
+
+    @act_causes = @cause.act_causes
 
     respond_to do |format|
       format.html # show.html.erb
@@ -92,5 +94,9 @@ class CausesController < ApplicationController
       format.html { redirect_to causes_url }
       format.json { head :no_content }
     end
+  end
+
+  def default_serializer_options
+    {root: false}
   end
 end

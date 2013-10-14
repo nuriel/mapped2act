@@ -1,4 +1,4 @@
-<%= form_for(@cause, :html => { :class => "form-horizontal" }) do |f| %>
+<%= nested_form_for(@cause, :html => { :class => "form-horizontal" }) do |f| %>
   <% if @cause.errors.any? %>
     <div class="alert alert-danger alert-dismissable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -76,33 +76,19 @@
       <%= f.text_field :longitude, :class => "form-control" %>
     </div>
   </div>
-  <div class="form-group">
-    <%= f.label :logo, :class => "col-lg-2 control-label" %>
-    <div class="col-lg-10">
-      <%= f.text_field :logo, :class => "form-control" %>
-    </div>
+  <%= f.label :logo, :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+    <%= f.file_field :logo, :class => "form-control" %>
   </div>
-
+  </br>
   <!-- LINK TO ACTS-->
   <h2><%= t('causes.how_can_we_help') %></h2>
   <div class="form-group">
-    <% @cause.act_causes.each do |act_cause| %>
-      <%= check_box_tag "cause[act_causes_ids][]", act.id, @cause.act_cause_ids.include?(act_cause.id), id: dom_id(act_cause) %>
+    <% Act.all.each do |act| %>
+      <%= check_box_tag "cause[act_ids][]", act.id, @cause.act_cause_ids.include?(act.id), id: dom_id(act) %>
       <%= label_tag dom_id(act), act.presentation %><br>
       (<%= label_tag dom_id(act), act.description %>)<br>
-      <div class="act_cause_container">
-        <%= f.fields_for @cause.act_causes.where(act_id: act.id).first_or_initialize do |act_cause_fields| %>
-          url: <%= act_cause_fields.text_field :url %><br/>
-          message  : <%= act_cause_fields.text_field :message %><br/>
-
-
-      <% end %>
-      </div>
     <% end %>
-    <%= f.label :logo, :class => "col-lg-2 control-label" %>
-    <div class="col-lg-4">
-      <%= f.file_field :logo, :class => "form-control" %>
-    </div>
     <div class="col-lg-4">
       <%= image_tag @cause.logo_url.to_s %>
     </div>

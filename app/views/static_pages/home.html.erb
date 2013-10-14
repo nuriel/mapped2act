@@ -21,9 +21,8 @@
       for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
         var marker = Gmaps.map.markers[i].serviceObject;
         marker.data = jQuery.parseJSON(Gmaps.map.markers[i].data);
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function(e) {
           showCauseInfoSidebar(this.data);
-
         });
       }
     }

@@ -6,6 +6,13 @@ var showCauseInfoSidebar = function(markerData) {
     $(this).text(markerData[$(this).data('key')]);
   })
 
+  var image = $('#sidebar_cause_image');
+  console.log(markerData)
+  image.fadeOut('fast', function () {
+    image.attr('src', markerData.logo['url']);
+    image.fadeIn('fast');
+  });
+
 }
 
 $(document).ready(function(){

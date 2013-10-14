@@ -2,5 +2,7 @@
 <h2 class="fill_from_data" data-key="name">loading...</h2>
 <h4 class="fill_from_data" data-key="one_liner">loading...</h4>
 <div class="fill_from_data" data-key="address">loading...</div>
-<div class="fill_from_data" data-key="image"></div>
+<div class="col-sm-12 col-md-12">
+  <%= image_tag Cause.first.logo.url, id: 'sidebar_cause_image', class: 'thumbnail' %>
+</div>
 <div class="fill_from_data" data-key="social_contribution">loading...</div>

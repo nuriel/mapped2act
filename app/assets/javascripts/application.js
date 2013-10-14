@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require jquery_nested_form
 //= require select2
 //= require select2_locale_he
 //= require map
