@@ -1,37 +1,24 @@
-<ul class="nav nav-pills nav-stacked" id="jobs_tab">
-  <% selected = params[:cause] ? params[:cause] : @act_causes.first.id %>
-  <%= @act_causes.each do |act_cause| %>
-    <li class="<%= "selected" if selected == act_cause.id %>">
-      <a href="#<%= dom_id(act_cause) %>_tab"><%= act_cause.cause.name %></a>
-    </li>
-  <% end %>
-</ul>
-
-<div class="tab-content">
-  <%= @act_causes.each do |act_cause| %>
-    <div class="tab-pane<%= " active" if selected == act_cause.id %>" id="<%= dom_id(act_cause) %>_tab">
-
-    </div>
-  <% end %>
-</div>
-
-<div class="col-md-6"><h3>Tabs -left</h3>
-
   <!-- tabs left -->
   <div class="tabbable tabs-left">
+    <% selected = params[:cause] ? params[:cause] : @act_causes.first.id %>
     <ul class="nav nav-tabs">
-      <li><a href="#a" data-toggle="tab">One</a></li>
-      <li><a href="#b" data-toggle="tab">Two</a></li>
-      <li><a href="#c" data-toggle="tab">Twee</a></li>
+      <% @act_causes.each do |act_cause| %>
+        <li><a href="<%= "##{dom_id(act_cause)}_tab" %>" data-toggle="tab"><%= act_cause.cause.name %></a></li>
+      <% end %>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="a">Lorem ipsum dolor sit amet, charetra varius quam sit amet vulputate.
-        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero.</div>
-      <div class="tab-pane" id="b">Secondo sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan.
-        Aliquam in felis sit amet augue.</div>
-      <div class="tab-pane" id="c">Thirdamuno, ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate.
-        Quisque mauris augue, molestie tincidunt condimentum vitae. </div>
-    </div>
+      <% @act_causes.each do |act_cause| %>
+        <div class="tab-pane active" id="<%= "#{dom_id(act_cause)}_tab" %>">
+          <h2><%= act_cause.cause.name %></h2>
+          <blockquote>
+            <p><%= act_cause.cause.social_contribution %></p>
+          </blockquote>
+          <h3><%= link_to "Visit wanted page", act_cause.url, target: "_blank" %></h3>
+          <div class="col-xs-8">
+            <%= image_tag act_cause.cause.logo.url, alt: "#{act_cause.act.name}, another cause that try to act by doing. visit us at mapped2act.com" %>
+          </div>
+        </div>
+      <% end %>
   </div>
   <!-- /tabs -->
 
