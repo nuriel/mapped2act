@@ -17,7 +17,7 @@ class StaticPagesController < ApplicationController
 
   def work
     @work_act = Act.work_acts.first
-    @act_causes = @work_act.act_causes
+    @act_causes = @work_act.present? ? @work_act.act_causes : []
   end
 
   def admin

@@ -1,6 +1,6 @@
   <!-- tabs left -->
   <div class="tabbable tabs-left">
-    <% selected = params[:cause] ? params[:cause] : @act_causes.first.id %>
+    <%# selected = params[:cause] ? params[:cause] : @act_causes.first.id %>
     <ul class="nav nav-tabs">
       <% @act_causes.each do |act_cause| %>
         <li><a href="<%= "##{dom_id(act_cause)}_tab" %>" data-toggle="tab"><%= act_cause.cause.name %></a></li>
