@@ -52,7 +52,7 @@
     </dl>
   </div>
   <div id="cause_sidebar" class="col-sm-5 col-md-5">
-    <%= image_tag @cause.logo, class: "thumbnail" %>
+    <%= image_tag @cause.logo, class: "thumbnail" if @cause.logo.present%>
   </div>
 </div>
 
