@@ -37,7 +37,7 @@
           <td><%= cause.social_contribution %></td>
           <td><%= cause.one_liner %></td>
           <td><%= cause.address %></td>
-          <td><%= image_tag cause.logo.url.to_s, size: "100x100" %></td>
+          <td><%= image_tag cause.logo.url.to_s, size: "100x100" if cause.logo.url.present? %></td>
           <td>
             <%= link_to 'Show', cause %><br>
             <%= link_to 'Edit', edit_cause_path(cause) %></br>
