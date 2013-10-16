@@ -171,6 +171,9 @@ GEM
     url_validator (0.0.7)
       addressable
       rails
+    valid_email (0.0.4)
+      activemodel
+      mail
     warden (1.2.3)
       rack (>= 1.0)
 
@@ -202,3 +205,4 @@ DEPENDENCIES
   thin
   uglifier (>= 1.0.3)
   url_validator (~> 0.0.3)
+  valid_email

@@ -28,6 +28,7 @@ gem 'active_model_serializers'
 gem "nested_form", "~> 0.3.2"
 
 gem "url_validator", "~> 0.0.3"
+gem 'valid_email'
 
 # development tools
 group :development do

@@ -44,6 +44,8 @@ class Cause < ActiveRecord::Base
 
   # VALIDATIONS
   validates :address, :email, :name, :phone, :social_contribution, :website, presence: true      #, :one_liner
+  validates_url :website
+
 
   # CALLBACKS
 
