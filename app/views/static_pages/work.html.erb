@@ -15,7 +15,7 @@
           </p>
           <h3><%= link_to t("visit_careers_page"), act_cause.url, target: "_blank" %></h3>
           <div class="col-xs-8">
-            <%= image_tag act_cause.cause.logo.url, alt: "#{act_cause.act.name}, another cause that try to act by doing. visit us at mapped2act.com" if act_cause.cause.logo %>
+            <%= image_tag act_cause.cause.logo.url, alt: "#{act_cause.act.name}, another cause that try to act by doing. visit us at mapped2act.com" if act_cause.cause.logo.present? %>
           </div>
         </div>
       <% end %>
