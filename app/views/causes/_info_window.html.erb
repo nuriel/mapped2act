@@ -1,12 +1,15 @@
-<div class="btn-group" style="width: 100%;height: 100%">
-  <button type="button" class="btn btn-success btn-block dropdown-toggle" data-toggle="dropdown">
-    ACT! <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="#">Volunteer</a></li>
-    <li><a href="#">Work</a></li>
-  </ul>
-</div>
+<% if object.acts.present? %>
+  <div class="btn-group" style="width: 100%;height: 100%">
+    <button type="button" class="btn btn-success btn-block dropdown-toggle" data-toggle="dropdown">
+      ACT! <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <% object.act_causes.each do |act_cause| %>
+        <li><%= link_to act_cause.act.name, act_cause.url, target: "_blank" %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-<h3><%= object.name %></h3>
-<h5><%= object.address %></h5>
+  <h3><%= object.name %></h3>
+  <h5><%= object.address %></h5>

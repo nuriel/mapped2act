@@ -17,6 +17,7 @@ var showCauseInfoSidebar = function(markerData) {
 
 $(document).ready(function(){
 
+
 // make map truly responsive, in height as well
   $(window).resize(function () {
     var h = $(window).height(),
@@ -27,6 +28,23 @@ $(document).ready(function(){
   $('body').on('click', '#sidebar_back', function(){
     $('#info_overlay').hide();
     $('#markers_sidebar').show();
+  });
+
+  $('body').on('click', '.sidebar_category', function(){
+    var self = $(this)
+    $('#info_overlay').hide();
+    $('#markers_sidebar').show();
+    self.toggleClass('open');
+    var catId = self.data('category-id')
+    $('[data-category-id="'+ catId +'"].sidebar_marker').each(function( index ) {
+      var li = $(this).parents('li')
+      if (self.hasClass('open')){
+        li.show();
+      } else {
+        li.hide();
+      }
+    });
+
   });
 
 })

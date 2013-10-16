@@ -10,21 +10,38 @@
 
         <ul class="nav nav-list" id="markers_sidebar">
           <li class="nav-header">Choose the Cause:</li>
+          <% CauseCategory.all.each do |cc| %>
+            <li id="<%= "#{dom_id(cc)}" %>" class="sidebar_category selected open" data-category-id="<%= cc.id %>">
+              <%= image_tag cc.marker_address, size: "34x34" if cc.marker_address.present? %>
+              <strong><%= cc.name %></strong>
+            </li>
+          <% end %>
         </ul>
     </div>
   </div>
 </div>
 
+<div id="cause_categories_sidebar">
+</div>
+
 <% content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
     Gmaps.map.callback = function() {
-      for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
-        var marker = Gmaps.map.markers[i].serviceObject;
-        marker.data = jQuery.parseJSON(Gmaps.map.markers[i].data);
-        google.maps.event.addListener(marker, 'click', function(e) {
-          showCauseInfoSidebar(this.data);
+      google.maps.event.addListenerOnce(Gmaps.map.serviceObject, 'idle', function(){
+                //Map fully loaded here
+        for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
+          var marker = Gmaps.map.markers[i].serviceObject;
+          marker.data = jQuery.parseJSON(Gmaps.map.markers[i].data);
+          google.maps.event.addListener(marker, 'click', function(e) {
+            showCauseInfoSidebar(this.data);
+          });
+        }
+        $('.sidebar_marker').each(function( index ) {
+          var catId = $(this).data('category-id');
+          $(this).parents('li').insertAfter($('[data-category-id="'+ catId +'"].sidebar_category'));
         });
-      }
+
+      });
     }
   </script>
 <% end %>
