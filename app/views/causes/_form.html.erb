@@ -90,7 +90,7 @@
       (<%= label_tag dom_id(act), act.description %>)<br>
     <% end %>
     <div class="col-lg-4">
-      <%= image_tag @cause.logo_url.to_s %>
+      <%= image_tag @cause.logo_url.to_s if @cause.logo.present? %>
     </div>
   </div>
   <div class="form-group">
