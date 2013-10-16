@@ -168,6 +168,9 @@ GEM
     uglifier (2.2.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    url_validator (0.0.7)
+      addressable
+      rails
     warden (1.2.3)
       rack (>= 1.0)
 
@@ -198,3 +201,4 @@ DEPENDENCIES
   select2-rails
   thin
   uglifier (>= 1.0.3)
+  url_validator (~> 0.0.3)

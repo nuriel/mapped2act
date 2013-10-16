@@ -16,4 +16,7 @@ class ActCause < ActiveRecord::Base
 
   belongs_to :act
   belongs_to :cause
+
+  validates_url :url
+
 end

@@ -1,5 +1,6 @@
   <!-- tabs left -->
   <div class="tabbable tabs-left">
+    <%= "No works available right now, check back later" if @act_causes.blank?%>
     <%# selected = params[:cause] ? params[:cause] : @act_causes.first.id %>
     <ul class="nav nav-tabs">
       <% @act_causes.each do |act_cause| %>
