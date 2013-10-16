@@ -11,7 +11,8 @@ var initLocationAutocomplete = function() {
             dataType: "json",
             data: function (term, page) {return {q:term, page: page, per: 10}},
             results: function (data, page) {
-                return {results: data};
+
+              return {results: data.map};
             }
         },
         initSelection : function (element, callback) {
@@ -38,8 +39,9 @@ var geolocate = function(inputId) {
 
 // update the form according to info set in the location autocomplete
 var updateSelectedLocation = function(inputId) {
-    data = $('#'+inputId).select2('data')[0];
-    if (typeof data.text != "undefined"){
+  data = $('#'+inputId).select2('data')[0];
+    console.log(data)
+    if (typeof data !== 'undefined' && typeof data.text !== 'undefined'){
         $('#'+inputId).val(data.text);
         $('#cause_latitude').val(data.id['lat']);
         $('#cause_longitude').val(data.id['lng']);
@@ -49,6 +51,10 @@ var updateSelectedLocation = function(inputId) {
         cval = 'https://maps.googleapis.com/maps/api/staticmap?center=' + data.id['lat'] + '%2c' + data.id['lng'] +'&amp;zoom=14&amp;size=288x200&amp;markers=' + data.id['lat'] + '%2c' + data.id['lng'] +'&amp;sensor=false';
         $('<img id="edit_cause_map" height="200" width="288" src="'+ cval +'">').insertAfter( map );
         map.remove();
+    } else {
+      $('#cause_latitude').val('');
+      $('#cause_longitude').val('');
+
     }
 }
 
