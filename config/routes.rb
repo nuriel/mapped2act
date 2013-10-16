@@ -20,6 +20,8 @@ Mapped2act::Application.routes.draw do
 
   resources :act_causes
 
+  get "/admin", to: "static_pages#admin"
+
   # ROOT
   root to: 'static_pages#home'
 

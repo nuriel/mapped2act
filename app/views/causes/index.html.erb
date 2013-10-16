@@ -6,50 +6,50 @@
   <h1>Listing causes</h1>
 </div>
 
-<div class="col-lg-8">
-  <%= gmaps4rails(@json) %>
-</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+          <th>State</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Website</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Social contribution</th>
+          <th>One liner</th>
+          <th>Address</th>
+          <th>Logo</th>
+          <th></th>
+        </tr>
+        </thead>
 
-<div class="table-responsive">
-  <table class="table table-striped table-bordered table-hover">
-    <thead>
-      <tr>
-            <th>State</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Website</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Social contribution</th>
-            <th>One liner</th>
-            <th>Address</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Logo</th>
-            <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
+        <tbody>
+        <%= content_tag_for(:tr, @causes) do |cause| %>
+          <td><%= cause.state %></td>
+          <td><%= cause.name %></td>
+          <td><%= cause.cause_category.name if cause.cause_category %></td>
+          <td><%= cause.website %></td>
+          <td><%= cause.phone %></td>
+          <td><%= cause.email %></td>
+          <td><%= cause.social_contribution %></td>
+          <td><%= cause.one_liner %></td>
+          <td><%= cause.address %></td>
+          <td><%= image_tag cause.logo.url.to_s, size: "100x100" %></td>
+          <td>
+            <%= link_to 'Show', cause %><br>
+            <%= link_to 'Edit', edit_cause_path(cause) %></br>
+            <%= link_to 'Destroy', cause, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-    <tbody>
-      <%= content_tag_for(:tr, @causes) do |cause| %>
-            <td><%= cause.state %></td>
-            <td><%= cause.name %></td>
-            <td><%= cause.cause_category.name if cause.cause_category %></td>
-            <td><%= cause.website %></td>
-            <td><%= cause.phone %></td>
-            <td><%= cause.email %></td>
-            <td><%= cause.social_contribution %></td>
-            <td><%= cause.one_liner %></td>
-            <td><%= cause.address %></td>
-            <td><%= cause.latitude %></td>
-            <td><%= cause.longitude %></td>
-            <td><%= cause.logo %></td>
-            <td><%= link_to 'Show', cause %></td>
-        <td><%= link_to 'Edit', edit_cause_path(cause) %></td>
-        <td><%= link_to 'Destroy', cause, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="col-xs-8">
+    <%= gmaps4rails(@json) %>
+  </div>
 </div>

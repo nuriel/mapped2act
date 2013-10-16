@@ -1,0 +1,17 @@
+<h1>mapped2act Admin</h1>
+
+<h2>Add/Edit info</h2>
+
+<h4><%= link_to '+ Edit Causes (The causes on the map)', causes_path %></h4>
+<h4><%= link_to '+ Edit Causes Categories (What kind of causes are acceptable)', cause_categories_path %></h4>
+<h4><%= link_to '+ Edit Acts (What kind of actions are possible)', acts_path %></h4>
+
+<br/>
+<h3>Latest Causes</h3>
+<p>
+  <% @last_created.each do |cause| %>
+    <h4><%= cause.name %></h4>
+    <%= cause.to_json %> <br>
+    <%= link_to "edit", edit_cause_path(cause) %><br>
+  <% end %>
+</p>

@@ -7,13 +7,13 @@
       <% end %>
     </ul>
     <div class="tab-content">
-      <% @act_causes.each do |act_cause| %>
-        <div class="tab-pane active" id="<%= "#{dom_id(act_cause)}_tab" %>">
+      <% @act_causes.each_with_index do |act_cause, index| %>
+        <div class="tab-pane <%= "active" if index == 0 %>" id="<%= "#{dom_id(act_cause)}_tab" %>">
           <h2><%= act_cause.cause.name %></h2>
-          <blockquote>
-            <p><%= act_cause.cause.social_contribution %></p>
-          </blockquote>
-          <h3><%= link_to "Visit wanted page", act_cause.url, target: "_blank" %></h3>
+          <p class="social_contribution">
+            <%= act_cause.cause.social_contribution %>
+          </p>
+          <h3><%= link_to t("visit_careers_page"), act_cause.url, target: "_blank" %></h3>
           <div class="col-xs-8">
             <%= image_tag act_cause.cause.logo.url, alt: "#{act_cause.act.name}, another cause that try to act by doing. visit us at mapped2act.com" %>
           </div>

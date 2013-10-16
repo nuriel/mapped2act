@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
   def home
     @user = User.new()
-    @json = Cause.all.to_gmaps4rails do |cause, marker|
+    @json = Cause.order('cause_category_id').all.to_gmaps4rails do |cause, marker|
       marker.infowindow render_to_string(:partial => "/causes/info_window", :locals => { :object => cause})
       img = cause.cause_category.present? ? ActionController::Base.helpers.asset_path(cause.cause_category.marker_address) : "http://www.google.com/mapfiles/dd-start.png"
       marker.picture({
@@ -18,5 +18,10 @@ class StaticPagesController < ApplicationController
   def work
     @work_act = Act.work_acts.first
     @act_causes = @work_act.act_causes
+  end
+
+  def admin
+    authenticate_user!
+    @last_created = Cause.order("created_at DESC").limit(8)
   end
 end
