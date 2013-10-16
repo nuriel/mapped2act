@@ -1,3 +1,3 @@
-<span class="sidebar_marker" data-category-id="<%= try(cause.cause_category.id) %>">
+<span class="sidebar_marker" data-category-id="<%= cause.cause_category.id  if cause.cause_category.present?%>">
   <%= cause.name %>
 </span>
