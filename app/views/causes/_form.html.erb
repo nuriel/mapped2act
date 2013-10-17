@@ -83,11 +83,15 @@
   </br>
   <!-- LINK TO ACTS-->
   <h2><%= t('causes.how_can_we_help') %></h2>
+
+  active acts: <%= @cause.acts.pluck(:name).join(',') %>
   <div class="form-group">
     <% Act.all.each do |act| %>
-      <%= check_box_tag "cause[act_ids][]", act.id, @cause.act_cause_ids.include?(act.id), id: dom_id(act) %>
+      <%= check_box_tag "cause[act_ids][]", act.id, @cause.act_ids.include?(act.id), id: dom_id(act) %>
       <%= label_tag dom_id(act), act.presentation %><br>
       (<%= label_tag dom_id(act), act.description %>)<br>
+      <% ac = @cause.act_causes.where(act_id: act.id).first  %>
+      <%= "Url: #{link_to ac.url, ac.url}<br/>Message: #{ac.message}<br/><br/>".html_safe if ac %>
     <% end %>
     <div class="col-lg-4">
       <%= image_tag @cause.logo_url.to_s if @cause.logo.present? %>

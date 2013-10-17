@@ -9,7 +9,7 @@ class ActCausesController < ApplicationController
         format.html { redirect_to @act_cause.cause, notice: 'Act was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { redirect_to @act_cause.cause, alert: @act_cause.errors.full_messages }
         format.json { render json: @act_cause.errors, status: :unprocessable_entity }
       end
     end
