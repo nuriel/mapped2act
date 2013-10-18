@@ -45,7 +45,7 @@ class Cause < ActiveRecord::Base
   # VALIDATIONS
   validates :address, :email, :name, :phone, :social_contribution, :website, presence: true      #, :one_liner
   validates_url :website
-
+  validates_length_of :one_liner, :minimum => 3, :maximum => 100, :allow_blank => true
 
   # CALLBACKS
 

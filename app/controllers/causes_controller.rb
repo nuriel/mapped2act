@@ -54,7 +54,7 @@ class CausesController < ApplicationController
     @cause = Cause.new(params[:cause])
 
     respond_to do |format|
-      if @cause.save
+      if @cause.save!
         @cause.set_state(user_signed_in? ? :approved : :awaiting_approval)
 
         format.html { redirect_to @cause, notice: 'Cause was successfully created.' }
