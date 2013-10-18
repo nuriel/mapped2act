@@ -62,7 +62,7 @@ class ActsController < ApplicationController
 
     respond_to do |format|
       if @act.update_attributes(params[:act])
-        format.html { redirect_to @act, notice: "Act #{@act.name} was successfully updated." }
+        format.html { redirect_to @act, notice: "Act #{@act.presentation} was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

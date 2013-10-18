@@ -5,7 +5,7 @@
     </button>
     <ul class="dropdown-menu" role="menu">
       <% object.act_causes.each do |act_cause| %>
-        <li><%= link_to act_cause.act.name, act_cause.url, target: "_blank" %></li>
+        <li><%= link_to act_cause.act.presentation, act_cause.url, target: "_blank" %></li>
       <% end %>
       <% if user_signed_in? %>
         <li><strong><%= link_to t("edit_cause_act"), cause_path(object) %></strong></li>
